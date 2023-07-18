@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,20 +40,19 @@ public class AllController {
     	this.userStockService=userStockService;
     }
 
-    
-
+    @PostMapping("/users")
+    public Users addUsers(@RequestBody Users user) {
+        return userService.addUsers(user);
+    }
     // User endpoints
     @GetMapping("/users")
     public List<Users> getAllUsers() {
-
         return userService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")
     public Users getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
-        
-       
     }
 
     // Stock endpoints
@@ -68,23 +68,29 @@ public class AllController {
         
     @PostMapping("/stocks/buy")
     public ResponseEntity<Map<String, Object>> buyStock(@RequestBody Map<String, Object> request) {
-        // Extract the required parameters from the request body
-    	Long stockId = ((Number) request.get("stockId")).longValue();
-        int quantity = ((Number) request.get("quantity")).intValue();
-        Long userId = ((Number) request.get("userId")).longValue();
 
-        UserStock userStock = stockService.buyStock(stockId,quantity, userId);
-        
-        UserTransactions userTransactions = new UserTransactions();
-        userTransactions.setUser(userStock.getUser());
-        userTransactions.setStock(userStock.getStock());
-        userTransactions.setQuantity(Long.valueOf(userStock.getQuantity()));
-        
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Buy Stock API Endpoint with JSON Response");
-        
-        
-         return ResponseEntity.ok(response);
+        try{
+            // Extract the required parameters from the request body
+            Long stockId = ((Number) request.get("stockId")).longValue();
+            int quantity = ((Number) request.get("quantity")).intValue();
+            Long userId = ((Number) request.get("userId")).longValue();
+
+            UserTransactions userTransactions = stockService.buyStock(stockId,quantity, userId);
+            response.put("id", userTransactions.gettId());
+            response.put("stock_id", userTransactions.getStock().getStockId());
+            response.put("user_Id", userTransactions.getUser().getUserId());
+            response.put("quantity", userTransactions.getQuantity());
+            response.put("price", userTransactions.getPrice());
+            response.put("transaction_type", userTransactions.getTransactionType());
+            return ResponseEntity.ok(response);
+        } catch(IllegalArgumentException e){
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch(Exception e){
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
 

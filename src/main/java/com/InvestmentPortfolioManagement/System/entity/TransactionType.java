@@ -1,6 +1,10 @@
 package com.InvestmentPortfolioManagement.System.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum TransactionType {
-	BUY,
+	@JsonProperty("buy")
+    BUY,
+    @JsonProperty("sell")
     SELL
 }
