@@ -46,24 +46,55 @@ public class AllController {
     }
     // User endpoints
     @GetMapping("/users")
-    public List<Users> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<?> getAllUsers() {
+        try{
+            return ResponseEntity.ok(userService.getAllUsers());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/users/{id}")
-    public Users getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            Users user = userService.getUserById(id);
+            response.put("id", user.getUserId());
+            response.put("name", user.getName());
+            response.put("email", user.getEmail());
+            response.put("balance", user.getBalance());
+            return ResponseEntity.ok(response);
+        }catch (Exception e) {
+            response.put("error", e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     // Stock endpoints
     @GetMapping("/stocks")
-    public List<Stocks> getAllStocks() {
-        return stockService.getAllStocks();
+    public ResponseEntity<?> getAllStocks() {
+        try{
+            return ResponseEntity.ok(stockService.getAllStocks());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @GetMapping("/stocks/{id}")
-    public Stocks getStockById(@PathVariable Long id) {
-        return stockService.getStockById(id);
+    public ResponseEntity<Map<String, Object>> getStockById(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        try{
+            Stocks stock = stockService.getStockById(id);
+            response.put("id", stock.getStockId());
+            response.put("company", stock.getCompany());
+            response.put("quantity", stock.getQuantity());
+            response.put("price", stock.getPrice());
+            response.put("user_limit", stock.getUserLimit());
+            return ResponseEntity.ok(response);
+        }catch (Exception e) {
+            response.put("error", e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
         
     @PostMapping("/stocks/buy")
