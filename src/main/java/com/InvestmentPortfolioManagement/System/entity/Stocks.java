@@ -11,8 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class Stocks {
     
@@ -20,14 +23,18 @@ public class Stocks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "stock_id")
     private Long stockId;
-    
+    @NonNull
     private String company;
+    @NonNull
     private Long quantity;
+    @NonNull
     private Double price;
+    @NonNull
     private LocalDateTime createdAt;
+    @NonNull
     private LocalDateTime updatedAt;
     
-    @JsonProperty
+    @Column(name="user_limit")
     private Long userLimit;
     
   //Getter and Setter

@@ -91,4 +91,10 @@ public class StockService {
     	
     	return  null/*response*/;
     }
+
+    public Stocks addStocks(Stocks stock) {
+        stock.setCreatedAt(LocalDateTime.now());
+        stock.setUpdatedAt(LocalDateTime.now());
+        return stockRepository.save(stock);
+    }
 }

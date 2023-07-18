@@ -70,6 +70,10 @@ public class AllController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
+    @PostMapping("/stocks")
+    public Stocks addUsers(@RequestBody Stocks stock) {
+        return stockService.addStocks(stock);
+    }
     // Stock endpoints
     @GetMapping("/stocks")
     public ResponseEntity<?> getAllStocks() {
