@@ -1,0 +1,15 @@
+com\InvestmentPortfolioManagement\System\repository\UserTransactionRepository.class
+com\InvestmentPortfolioManagement\System\service\UserTransactionService.class
+com\InvestmentPortfolioManagement\System\entity\UserTransactions.class
+com\InvestmentPortfolioManagement\System\IpmsApplication.class
+com\InvestmentPortfolioManagement\System\service\UserService.class
+com\InvestmentPortfolioManagement\System\controller\AllController.class
+com\InvestmentPortfolioManagement\System\entity\Stocks.class
+com\InvestmentPortfolioManagement\System\service\StockService.class
+com\InvestmentPortfolioManagement\System\service\UserStockService.class
+com\InvestmentPortfolioManagement\System\entity\TransactionType.class
+com\InvestmentPortfolioManagement\System\entity\UserStock.class
+com\InvestmentPortfolioManagement\System\repository\UserStockRepository.class
+com\InvestmentPortfolioManagement\System\repository\StockRepository.class
+com\InvestmentPortfolioManagement\System\entity\Users.class
+com\InvestmentPortfolioManagement\System\repository\UserRepository.class
